@@ -1,5 +1,6 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { mergeConfig } from 'vite';
 
 const config: StorybookConfig = {
@@ -17,6 +18,8 @@ const config: StorybookConfig = {
   },
 
   async viteFinal(config, _options) {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
     return mergeConfig(config, {
       plugins: [],
       resolve: {

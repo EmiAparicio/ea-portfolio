@@ -9,23 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "shared-constants": "workspace:*",
-    "@formatjs/intl-localematcher": "^0.6.1",
+    "@formatjs/intl-localematcher": "^0.6.2",
     "@radix-ui/react-toast": "^1.2.15",
     "accept-language-parser": "^1.5.0",
     "classnames": "^2.5.1",
-    "framer-motion": "^12.23.12",
-    "jotai": "^2.13.1",
-    "next": "^15.5.3",
+    "framer-motion": "^12.23.24",
+    "jotai": "^2.15.1",
+    "next": "^16.0.1",
     "next-themes": "^0.4.6",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "shared-constants": "workspace:*"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/postcss": "^4.1.16",
     "@types/accept-language-parser": "^1.5.8",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4.1.16"
   },
   "overrides": {
     "jotai": "^2.13.1"

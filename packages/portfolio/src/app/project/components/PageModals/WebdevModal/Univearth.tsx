@@ -131,7 +131,7 @@ const Univearth: FC<UnivearthProps> = ({ className, loaderDelayMs = 180 }) => {
         toggleable={false}
         showLabelOnToggled={true}
         className={cn(
-          'pointer-events-auto !absolute',
+          'pointer-events-auto absolute!',
           deviceType === 'web' && 'top-1/2 left-[5%]',
           deviceType === 'medium' && 'top-1/2 left-[2.5%] translate-x-1/2',
           deviceType === 'mobile' && '-bottom-[2.5%] left-1/2'

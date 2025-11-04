@@ -30,13 +30,19 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (path.startsWith('/uvegame')) {
+  if (path === '/uvegame' || path.startsWith('/uvegame/')) {
     if (/\.[\w]+$/.test(pathname)) {
       return NextResponse.next();
     }
     const url = req.nextUrl.clone();
     url.pathname = '/uvegame/index.html';
     return NextResponse.rewrite(url);
+  }
+
+  if (path.startsWith('/uvegame')) {
+    const url = req.nextUrl.clone();
+    url.pathname = '/uvegame';
+    return NextResponse.redirect(url);
   }
 
   if (

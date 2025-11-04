@@ -275,20 +275,14 @@ const AdvancedAnalyticsChart = <TData extends object>({
     endIndex: isMobile ? mobileEndIndex : undefined,
   });
 
-  /**
-   * Effect to reset brush state when switching between mobile/desktop.
-   */
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setBrushRange({
       startIndex: isMobile ? mobileStartIndex : undefined,
       endIndex: isMobile ? mobileEndIndex : undefined,
     });
   }, [isMobile, mobileStartIndex, mobileEndIndex]);
 
-  /**
-   * Handles the brush movement to update its controlled state.
-   * @param {BrushRange} newRange The new range from the Brush component.
-   */
   const handleBrushChange = (newRange: BrushRange) => {
     setBrushRange({
       startIndex: newRange.startIndex,
@@ -296,9 +290,6 @@ const AdvancedAnalyticsChart = <TData extends object>({
     });
   };
 
-  /**
-   * Calculates the mean of the line data for the ReferenceLine.
-   */
   const averageLineValue = useMemo(() => {
     const values = data.map((d) => d[lineDataKey] as number | undefined);
     const validValues = values.filter(
@@ -307,25 +298,16 @@ const AdvancedAnalyticsChart = <TData extends object>({
     return d3Mean(validValues);
   }, [data, lineDataKey]);
 
-  /**
-   * Memoized tick formatter for the left Y-axis.
-   */
   const yLeftTickFormatter = useCallback(
     (value: number) => d3Format(yAxisLeftFormat)(value),
     [yAxisLeftFormat]
   );
 
-  /**
-   * Memoized tick formatter for the right Y-axis.
-   */
   const yRightTickFormatter = useCallback(
     (value: number) => d3Format(yAxisRightFormat)(value),
     [yAxisRightFormat]
   );
 
-  /**
-   * Memoized tick formatter for the X-axis.
-   */
   const xTickFormatter = useCallback(
     (value: string | number) => {
       if (xAxisFormatType === 'time') {

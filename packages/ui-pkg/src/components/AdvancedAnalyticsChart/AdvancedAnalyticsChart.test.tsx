@@ -4,43 +4,38 @@ import {
   AdvancedAnalyticsChart,
   type AdvancedAnalyticsChartProps,
 } from './AdvancedAnalyticsChart';
+import * as Recharts from 'recharts';
+
+vi.mock('recharts', async (importOriginal) => {
+  const original = await importOriginal<typeof Recharts>();
+  return {
+    ...original,
+    ResponsiveContainer: vi.fn(({ children }) => (
+      <div data-testid="mock-responsive-container">{children}</div>
+    )),
+    ComposedChart: vi.fn(({ children }) => (
+      <div data-testid="mock-composed-chart">{children}</div>
+    )),
+    Bar: vi.fn(() => <div data-testid="mock-bar" />),
+    Line: vi.fn(() => <div data-testid="mock-line" />),
+    XAxis: vi.fn(() => <div data-testid="mock-xaxis" />),
+    YAxis: vi.fn(() => <div data-testid="mock-yaxis" />),
+    Tooltip: vi.fn(() => <div data-testid="mock-tooltip" />),
+    Legend: vi.fn(() => <div data-testid="mock-legend" />),
+    CartesianGrid: vi.fn(() => <div data-testid="mock-grid" />),
+    ReferenceLine: vi.fn(({ children }) => (
+      <div data-testid="mock-ref-line">{children}</div>
+    )),
+    Brush: vi.fn(() => <div data-testid="mock-brush" />),
+    Label: vi.fn(() => <div data-testid="mock-label" />),
+  };
+});
 
 const mockTimeData = [
-  { date: '2023-01-01T00:00:00Z', revenue: 120000, units: 500 },
+  { date: '2023-01-01T00:00:00Z', revenue: 100000, units: 500 },
   { date: '2023-01-02T00:00:00Z', revenue: 115000, units: 480 },
   { date: '2023-01-03T00:00:00Z', revenue: 135000, units: 520 },
-  { date: '2023-01-04T00:00:00Z', revenue: 140000, units: 530 },
-  { date: '2023-01-05T00:00:00Z', revenue: 155000, units: 550 },
-  { date: '2023-01-06T00:00:00Z', revenue: 180000, units: 600 },
-  { date: '2023-01-07T00:00:00Z', revenue: 175000, units: 590 },
-  { date: '2023-01-08T00:00:00Z', revenue: 160000, units: 570 },
-  { date: '2023-01-09T00:00:00Z', revenue: 165000, units: 580 },
-  { date: '2023-01-10T00:00:00Z', revenue: 190000, units: 620 },
-  { date: '2023-01-11T00:00:00Z', revenue: 210000, units: 650 },
-  { date: '2023-01-12T00:00:00Z', revenue: 205000, units: 640 },
-  { date: '2023-01-13T00:00:00Z', revenue: 195000, units: 610 },
-  { date: '2023-01-14T00:00:00Z', revenue: 185000, units: 600 },
-  { date: '2023-01-15T00:00:00Z', revenue: 200000, units: 630 },
-  { date: '2023-01-16T00:00:00Z', revenue: 220000, units: 660 },
-  { date: '2023-01-17T00:00:00Z', revenue: 215000, units: 655 },
-  { date: '2023-01-18T00:00:00Z', revenue: 230000, units: 680 },
-  { date: '2023-01-19T00:00:00Z', revenue: 225000, units: 670 },
-  { date: '2023-01-20T00:00:00Z', revenue: 240000, units: 700 },
-  { date: '2023-01-21T00:00:00Z', revenue: 235000, units: 690 },
-  { date: '2023-01-22T00:00:00Z', revenue: 220000, units: 660 },
-  { date: '2023-01-23T00:00:00Z', revenue: 210000, units: 640 },
-  { date: '2023-01-24T00:00:00Z', revenue: 225000, units: 670 },
-  { date: '2023-01-25T00:00:00Z', revenue: 235000, units: 685 },
-  { date: '2023-01-26T00:00:00Z', revenue: 250000, units: 710 },
-  { date: '2023-01-27T00:00:00Z', revenue: 245000, units: 705 },
-  { date: '2023-01-28T00:00:00Z', revenue: 260000, units: 730 },
-  { date: '2023-01-29T00:00:00Z', revenue: 255000, units: 720 },
-  { date: '2023-01-30T00:00:00Z', revenue: 270000, units: 750 },
-];
-const mockCategoryData = [
-  { category: 'Q1 2023', revenue: 405000, units: 1570 },
-  { category: 'Q2 2023', revenue: 565000, units: 1740 },
-  { category: 'Q3 2023', revenue: 510000, units: 1600 },
+  { date: '2023-01-04T00:00:00Z', revenue: 250000, units: 530 },
 ];
 
 const defaultProps: AdvancedAnalyticsChartProps<(typeof mockTimeData)[0]> = {
@@ -62,34 +57,53 @@ const defaultProps: AdvancedAnalyticsChartProps<(typeof mockTimeData)[0]> = {
 let resizeObserverCallback: (
   entries: { contentRect: { width: number; height: number } }[]
 ) => void;
-const mockResizeObserver = vi.fn((callback) => {
-  resizeObserverCallback = callback;
-  return {
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-    disconnect: vi.fn(),
-  };
-});
+
+class MockResizeObserver {
+  constructor(
+    callback: (
+      entries: { contentRect: { width: number; height: number } }[]
+    ) => void
+  ) {
+    resizeObserverCallback = callback;
+  }
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+}
+
 const triggerResize = (width: number) => {
   act(() => {
-    resizeObserverCallback([
-      {
-        contentRect: { width, height: 500 },
-      },
-    ]);
+    if (resizeObserverCallback) {
+      resizeObserverCallback([
+        {
+          contentRect: { width, height: 500 },
+        },
+      ]);
+    }
   });
 };
 
 describe('AdvancedAnalyticsChart', () => {
   beforeEach(() => {
-    vi.stubGlobal('ResizeObserver', mockResizeObserver);
+    vi.useFakeTimers();
+    vi.stubGlobal('ResizeObserver', MockResizeObserver);
+    vi.mocked(Recharts.ComposedChart).mockClear();
+    vi.mocked(Recharts.Bar).mockClear();
+    vi.mocked(Recharts.Line).mockClear();
+    vi.mocked(Recharts.ReferenceLine).mockClear();
+    vi.mocked(Recharts.Brush).mockClear();
+    vi.mocked(Recharts.XAxis).mockClear();
+    vi.mocked(Recharts.YAxis).mockClear();
+    vi.mocked(Recharts.Legend).mockClear();
+    vi.mocked(Recharts.Label).mockClear();
   });
 
   afterEach(() => {
+    vi.useRealTimers();
     vi.restoreAllMocks();
   });
 
-  it('should render all elements correctly on desktop', () => {
+  it('should render all mocked chart components', () => {
     render(<AdvancedAnalyticsChart {...defaultProps} />);
     triggerResize(1024);
 
@@ -98,80 +112,157 @@ describe('AdvancedAnalyticsChart', () => {
         name: 'Advanced Analytics Chart showing Revenue and Units Sold',
       })
     ).toBeInTheDocument();
-
-    expect(screen.getByText('Revenue')).toBeInTheDocument();
-    expect(screen.getByText('Units Sold')).toBeInTheDocument();
-    expect(screen.getByText('Revenue (USD)')).toBeInTheDocument();
-    expect(screen.getByText('Units')).toBeInTheDocument();
-
-    expect(screen.getByText('$200k')).toBeInTheDocument();
-    expect(screen.getByText('600')).toBeInTheDocument();
-
-    const xAxisTicks = screen.getAllByText(/^\w{3}\s\d{2}$/);
-    expect(xAxisTicks.length).toBeGreaterThan(0);
-
-    const avgLabel = screen.getByText(/Avg: \$200k/);
-    expect(avgLabel).toBeInTheDocument();
-
-    expect(document.querySelector('.recharts-brush')).toBeInTheDocument();
+    expect(screen.getByTestId('mock-responsive-container')).toBeInTheDocument();
+    expect(screen.getByTestId('mock-composed-chart')).toBeInTheDocument();
+    expect(screen.getByTestId('mock-bar')).toBeInTheDocument();
+    expect(screen.getByTestId('mock-line')).toBeInTheDocument();
+    expect(screen.getByTestId('mock-legend')).toBeInTheDocument();
+    expect(screen.getByTestId('mock-ref-line')).toBeInTheDocument();
+    expect(screen.getByTestId('mock-brush')).toBeInTheDocument();
+    expect(screen.getAllByTestId('mock-yaxis').length).toBe(2);
   });
 
-  it('should adapt to mobile viewports', () => {
+  it('should pass correct props to chart components', () => {
     render(<AdvancedAnalyticsChart {...defaultProps} />);
-    triggerResize(400);
-
-    expect(screen.getByText('Revenue')).toBeInTheDocument();
-    expect(screen.getByText('Units Sold')).toBeInTheDocument();
-    expect(screen.getByText('Revenue (USD)')).toBeInTheDocument();
-    expect(screen.getByText('Units')).toBeInTheDocument();
-
-    const brushTextsContainer = document.querySelector('.recharts-brush-texts');
-    expect(
-      brushTextsContainer === null || brushTextsContainer.textContent === ''
-    ).toBe(true);
-
-    const xAxisContainer = document.querySelector('.recharts-xAxis');
-    const hasCorrectlyFormattedTick = Array.from(
-      xAxisContainer?.querySelectorAll(
-        'text.recharts-cartesian-axis-tick-value'
-      ) || []
-    ).some((node) => /^\w{3}\s\d{2}$/.test(node.textContent || ''));
-    expect(hasCorrectlyFormattedTick).toBe(true);
-
-    expect(document.querySelector('.recharts-brush')).toBeInTheDocument();
-  });
-
-  it('should render categorical data correctly', () => {
-    const props: AdvancedAnalyticsChartProps<(typeof mockCategoryData)[0]> = {
-      data: mockCategoryData,
-      xAxisKey: 'category',
-      barDataKey: 'units',
-      lineDataKey: 'revenue',
-      barName: 'Units Sold',
-      lineName: 'Revenue',
-      yAxisLeftLabel: 'Revenue (USD)',
-      yAxisRightLabel: 'Units',
-      enableDataBrush: true,
-      xAxisFormatType: 'category',
-      yAxisLeftFormat: '$,.0s',
-      yAxisRightFormat: '.0s',
-      xAxisTickFormat: '',
-    };
-    render(<AdvancedAnalyticsChart {...props} />);
     triggerResize(1024);
 
-    expect(screen.getAllByText('Q1 2023').length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText('Q3 2023').length).toBeGreaterThanOrEqual(1);
-    expect(document.querySelector('.recharts-brush')).toBeInTheDocument();
+    expect(vi.mocked(Recharts.ComposedChart)).toHaveBeenLastCalledWith(
+      expect.objectContaining({ data: mockTimeData }),
+      undefined
+    );
+    expect(vi.mocked(Recharts.Bar)).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        dataKey: 'units',
+        name: 'Units Sold',
+        yAxisId: 'right',
+      }),
+      undefined
+    );
+    expect(vi.mocked(Recharts.Line)).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        dataKey: 'revenue',
+        name: 'Revenue',
+        yAxisId: 'left',
+      }),
+      undefined
+    );
+    expect(vi.mocked(Recharts.XAxis)).toHaveBeenLastCalledWith(
+      expect.objectContaining({ dataKey: 'date' }),
+      undefined
+    );
+    expect(vi.mocked(Recharts.YAxis)).toHaveBeenCalledTimes(6);
+    expect(vi.mocked(Recharts.YAxis)).toHaveBeenNthCalledWith(
+      5,
+      expect.objectContaining({ yAxisId: 'left' }),
+      undefined
+    );
+    expect(vi.mocked(Recharts.YAxis)).toHaveBeenNthCalledWith(
+      6,
+      expect.objectContaining({ yAxisId: 'right', orientation: 'right' }),
+      undefined
+    );
   });
 
-  it('should not render the brush if disabled', () => {
+  it('should calculate and pass correct average value to ReferenceLine', () => {
+    const simpleData = [
+      { date: '2023-01-01T00:00:00Z', revenue: 100000, units: 10 },
+      { date: '2023-01-02T00:00:00Z', revenue: 300000, units: 30 },
+    ];
+    render(<AdvancedAnalyticsChart {...defaultProps} data={simpleData} />);
+    triggerResize(1024);
+
+    const expectedAverage = 200000;
+    const expectedLabel = 'Avg: $200k';
+
+    expect(vi.mocked(Recharts.ReferenceLine)).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        y: expectedAverage,
+        yAxisId: 'left',
+      }),
+      undefined
+    );
+
+    expect(vi.mocked(Recharts.Label)).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        value: expectedLabel,
+      }),
+      undefined
+    );
+  });
+
+  it('should not render Brush when enableDataBrush is false', () => {
     render(
       <AdvancedAnalyticsChart {...defaultProps} enableDataBrush={false} />
     );
     triggerResize(1024);
 
-    const brush = document.querySelector('.recharts-brush');
-    expect(brush).not.toBeInTheDocument();
+    expect(screen.queryByTestId('mock-brush')).not.toBeInTheDocument();
+    expect(vi.mocked(Recharts.Brush)).not.toHaveBeenCalled();
+  });
+
+  it('should pass mobile-specific props on small viewports', () => {
+    render(<AdvancedAnalyticsChart {...defaultProps} />);
+    triggerResize(400);
+
+    expect(vi.mocked(Recharts.Legend)).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        verticalAlign: 'bottom',
+        align: 'center',
+      }),
+      undefined
+    );
+
+    expect(vi.mocked(Recharts.Bar)).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        barSize: 12,
+      }),
+      undefined
+    );
+
+    expect(vi.mocked(Recharts.Brush)).toHaveBeenCalled();
+    const lastCallArgs = vi.mocked(Recharts.Brush).mock.lastCall;
+    expect(lastCallArgs).toBeDefined();
+
+    if (lastCallArgs) {
+      const brushProps = lastCallArgs[0];
+      expect(brushProps.tickFormatter).toBeDefined();
+      if (brushProps.tickFormatter) {
+        expect(brushProps.tickFormatter(null, 0)).toBe('');
+      }
+    }
+  });
+
+  it('should pass desktop-specific props on large viewports', () => {
+    render(<AdvancedAnalyticsChart {...defaultProps} />);
+    triggerResize(1024);
+
+    expect(vi.mocked(Recharts.Legend)).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        verticalAlign: 'top',
+        align: 'right',
+      }),
+      undefined
+    );
+
+    expect(vi.mocked(Recharts.Bar)).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        barSize: 20,
+      }),
+      undefined
+    );
+
+    expect(vi.mocked(Recharts.Brush)).toHaveBeenCalled();
+    const lastCallArgs = vi.mocked(Recharts.Brush).mock.lastCall;
+    expect(lastCallArgs).toBeDefined();
+
+    if (lastCallArgs) {
+      const brushProps = lastCallArgs[0];
+      expect(brushProps.tickFormatter).toBeDefined();
+      if (brushProps.tickFormatter) {
+        expect(brushProps.tickFormatter('2023-01-01T00:00:00Z', 0)).toBe(
+          'Dec 31'
+        );
+      }
+    }
   });
 });

@@ -2,6 +2,7 @@ import { defineProject } from 'vitest/config';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+import { playwright } from '@vitest/browser-playwright';
 
 const dirname =
   typeof __dirname !== 'undefined'
@@ -20,8 +21,7 @@ export default defineProject({
     browser: {
       enabled: true,
       headless: true,
-      provider: 'playwright',
-      name: 'chromium',
+      provider: playwright(),
     },
     setupFiles: ['.storybook/vitest.setup.ts'],
   },

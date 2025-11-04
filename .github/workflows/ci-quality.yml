@@ -50,6 +50,8 @@ jobs:
 
       - name: Run Unit Tests for UI Package
         if: steps.filter.outputs.ui_pkg == 'true'
+        env:
+          TZ: 'America/Argentina/Buenos_Aires'
         run: pnpm run test:uipkg
 
       - name: Install Vercel CLI

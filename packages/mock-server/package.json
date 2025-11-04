@@ -1,0 +1,38 @@
+{
+  "name": "mock-server",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./node": {
+      "import": "./dist/node.mjs",
+      "require": "./dist/node.js",
+      "types": "./dist/node.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "merge-apis": "node ./scripts/merge-apis.mjs",
+    "generate:api-types": "pnpm run merge-apis && openapi-typescript-codegen -i ./openapi.yaml -o ./src/generated/api.types.ts",
+    "prebuild": "pnpm run generate:api-types",
+    "predev": "pnpm run generate:api-types"
+  },
+  "dependencies": {
+    "msw": "latest",
+    "swagger-merger": "latest"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "latest",
+    "openapi-typescript-codegen": "latest",
+    "tsup": "latest",
+    "typescript": "latest"
+  }
+}

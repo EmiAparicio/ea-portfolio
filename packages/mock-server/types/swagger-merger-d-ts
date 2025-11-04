@@ -1,0 +1,17 @@
+declare module 'swagger-merger' {
+  interface MergerOptions {
+    info?: {
+      title?: string;
+      version?: string;
+      description?: string;
+    };
+  }
+
+  class SwaggerMerger {
+    constructor(options?: MergerOptions);
+    addFile(filePath: string): Promise<void>;
+    compose(): Promise<string>;
+  }
+
+  export default SwaggerMerger;
+}
