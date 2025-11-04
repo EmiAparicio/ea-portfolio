@@ -151,7 +151,7 @@ export default function HexToggleBar({
   return (
     <Fragment>
       <div
-        className={cn('-translate-1/2 absolute', className)}
+        className={cn('absolute -translate-1/2', className)}
         style={{
           left: anchor.left,
           top: anchor.top,

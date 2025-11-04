@@ -296,7 +296,7 @@ export default function WebdevPageClient() {
           <BackgroundedElement
             as="article"
             className={cn(
-              '-translate-1/2 absolute px-[0%] py-[0%] text-center',
+              'absolute -translate-1/2 px-[0%] py-[0%] text-center',
               content.className
             )}
             style={{

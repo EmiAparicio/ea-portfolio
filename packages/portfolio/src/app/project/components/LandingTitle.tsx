@@ -101,7 +101,7 @@ const Section = memo(({ position }: SectionProps) => {
 
   return (
     <motion.div
-      className="-translate-1/2 absolute flex flex-col items-end"
+      className="absolute flex -translate-1/2 flex-col items-end"
       style={{
         left: position.left,
         top: position.top,
@@ -129,7 +129,7 @@ const Section = memo(({ position }: SectionProps) => {
         size="title"
         variant="title"
         scale={TEXT_SCALE_BY_DEVICETYPE[deviceType] * R}
-        className="!font-russo !select-none whitespace-nowrap leading-[100%]"
+        className="!font-russo leading-[100%] whitespace-nowrap !select-none"
         weightDelta={0}
       >
         Emiliano Aparicio

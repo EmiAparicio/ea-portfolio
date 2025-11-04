@@ -215,7 +215,7 @@ export default function GlitchLabel({
       data-animate={animatePulse ? '1' : '0'}
       className={cn(
         'glitch-label',
-        'relative flex select-none justify-center overflow-visible whitespace-nowrap text-center',
+        'relative flex justify-center overflow-visible text-center whitespace-nowrap select-none',
         '[contain:layout_style]',
         className
       )}

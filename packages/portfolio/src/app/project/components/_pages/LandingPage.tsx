@@ -26,7 +26,7 @@ export default function LandingPage() {
   return (
     <BackgroundedElement
       as="article"
-      className="-translate-1/2 absolute px-[0%] py-[0%] text-center"
+      className="absolute -translate-1/2 px-[0%] py-[0%] text-center"
       style={{
         top: mainTextPosition.top,
         left: mainTextPosition.left,

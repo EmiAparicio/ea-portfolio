@@ -290,7 +290,7 @@ const HexButtonBase = (
     <span style={style} className={cn(className)}>
       <span
         className={cn(
-          '-translate-1/2 relative inline-flex flex-col items-center',
+          'relative inline-flex -translate-1/2 flex-col items-center',
           isDisabled && 'opacity-55'
         )}
         data-disabled={isDisabled ? 'true' : 'false'}
@@ -363,7 +363,7 @@ const HexButtonBase = (
           }}
           className={cn(
             'hex-btn',
-            'relative isolate inline-flex select-none items-center justify-center border-0 bg-transparent p-0 outline-none',
+            'relative isolate inline-flex items-center justify-center border-0 bg-transparent p-0 outline-none select-none',
             isDisabled ? 'cursor-not-allowed' : 'cursor-pointer',
             'transition-[transform,filter,opacity] duration-[var(--hx-transition-ms)] ease-[var(--hx-transition-ease)]',
             'disabled:cursor-not-allowed'

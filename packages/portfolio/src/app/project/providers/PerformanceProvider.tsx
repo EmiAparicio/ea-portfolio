@@ -212,6 +212,6 @@ export function usePerformance(featureKey?: FeatureKey) {
   const isEnabled = ctx.isFeatureEnabled(featureKey);
   return {
     ...ctx,
-    enableAnimations: ctx.enableAnimations && isEnabled,
+    enableAnimations: false, //ctx.enableAnimations && isEnabled,
   } as const;
 }

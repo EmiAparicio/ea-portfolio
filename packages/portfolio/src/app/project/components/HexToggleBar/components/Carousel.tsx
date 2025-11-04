@@ -245,7 +245,7 @@ export default function Carousel({
     >
       <div
         ref={carouselRef}
-        className="relative select-none outline-none"
+        className="relative outline-none select-none"
         style={{
           width: widthPx,
           height: heightPx,
@@ -313,7 +313,7 @@ export default function Carousel({
         <button
           type="button"
           aria-label="prev"
-          className="outline-togglebar-carousel-arrow pointer-events-auto absolute left-0 top-1/2 z-20 -translate-x-[75%] -translate-y-[45%] cursor-pointer rounded-full p-0.5 focus:outline"
+          className="outline-togglebar-carousel-arrow pointer-events-auto absolute top-1/2 left-0 z-20 -translate-x-[75%] -translate-y-[45%] cursor-pointer rounded-full p-0.5 focus:outline"
           onClick={() => requestJump(1)}
           onPointerDown={(e) => e.stopPropagation()}
           data-animating={animating ? 'true' : 'false'}
@@ -327,7 +327,7 @@ export default function Carousel({
         <button
           type="button"
           aria-label="next"
-          className="outline-togglebar-carousel-arrow pointer-events-auto absolute right-0 top-1/2 z-20 -translate-y-[45%] translate-x-[79%] cursor-pointer rounded-full p-0.5 focus:outline"
+          className="outline-togglebar-carousel-arrow pointer-events-auto absolute top-1/2 right-0 z-20 translate-x-[79%] -translate-y-[45%] cursor-pointer rounded-full p-0.5 focus:outline"
           onClick={() => requestJump(-1)}
           onPointerDown={(e) => e.stopPropagation()}
           data-animating={animating ? 'true' : 'false'}
@@ -406,7 +406,7 @@ export default function Carousel({
             })}
           </div>
           <div
-            className="pointer-events-none absolute left-0 top-1/2 h-[150%] -translate-y-1/2"
+            className="pointer-events-none absolute top-1/2 left-0 h-[150%] -translate-y-1/2"
             style={{
               width: R * 2,
               display:
@@ -435,7 +435,7 @@ export default function Carousel({
             ))}
           </div>
           <div
-            className="pointer-events-none absolute right-0 top-1/2 h-[150%] -translate-y-1/2"
+            className="pointer-events-none absolute top-1/2 right-0 h-[150%] -translate-y-1/2"
             style={{
               width: R * 2,
               display:

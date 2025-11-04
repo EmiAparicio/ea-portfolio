@@ -6,30 +6,38 @@ import { NextResponse, type NextRequest } from 'next/server';
 
 const KNOWN_SUBPATHS = new Set(['webdev', 'gaming', 'bioengineering']);
 
-/**
- * Normalizes a pathname by removing duplicate and trailing slashes.
- * @param pathname The raw pathname string.
- * @returns The cleaned pathname.
- * @internal
- */
 function cleanPath(pathname: string) {
   const s = pathname.replace(/\/+/g, '/');
   return s !== '/' ? s.replace(/\/$/, '') : '/';
 }
 
-/**
- * The main middleware for handling internationalization routing.
- * It performs the following tasks:
- * 1. Skips execution for static assets, API routes, and files.
- * 2. Redirects paths without a language prefix (e.g., `/about`) to a localized
- * path (e.g., `/en/about`) based on language negotiation.
- * 3. Synchronizes the `NEXT_LOCALE` cookie with the language in the URL.
- * 4. Redirects any unknown subpaths (e.g., `/en/unknown-page`) to the
- * language's home page (e.g., `/en`).
- * @param req The incoming `NextRequest` object.
- */
 export async function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
+  const path = cleanPath(pathname);
+
+  if (path === '/uvegame/obm' || path.startsWith('/uvegame/obm/')) {
+    if (/\.[\w]+$/.test(pathname)) {
+      return NextResponse.next();
+    }
+    const url = req.nextUrl.clone();
+    url.pathname = '/uvegame/obm/index.html';
+    return NextResponse.rewrite(url);
+  }
+
+  if (path.startsWith('/uvegame/obm')) {
+    const url = req.nextUrl.clone();
+    url.pathname = '/uvegame/obm';
+    return NextResponse.redirect(url);
+  }
+
+  if (path.startsWith('/uvegame')) {
+    if (/\.[\w]+$/.test(pathname)) {
+      return NextResponse.next();
+    }
+    const url = req.nextUrl.clone();
+    url.pathname = '/uvegame/index.html';
+    return NextResponse.rewrite(url);
+  }
 
   if (
     pathname.startsWith('/_next') ||
@@ -39,7 +47,6 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const path = cleanPath(pathname);
   const segs = path.split('/').filter(Boolean);
   const first: LocaleBase | undefined = segs[0] as LocaleBase | undefined;
 

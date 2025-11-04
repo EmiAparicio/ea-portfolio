@@ -26,6 +26,7 @@ const eslintConfig = [
       '**/dist/**',
       '**/storybook-static/**',
       '**/public/storybook/**',
+      '**/public/uvegame/**',
       '**/*.d.ts',
     ],
   },

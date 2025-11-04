@@ -164,7 +164,7 @@ export default function GlobalModal(props: GlobalModalProps) {
                   type="button"
                   aria-label={closeLabel}
                   onClick={handleClose}
-                  className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-xl bg-black/5 hover:cursor-pointer hover:bg-black/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+                  className="absolute top-3 right-3 inline-flex h-9 w-9 items-center justify-center rounded-xl bg-black/5 hover:cursor-pointer hover:bg-black/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
                 >
                   <IoMdClose size={20} color="var(--global-modal-close)" />
                 </button>
@@ -182,15 +182,15 @@ export default function GlobalModal(props: GlobalModalProps) {
                   onClick={handleInfo}
                   className={cn(
                     'pointer-events-auto absolute',
-                    deviceType === 'web' && 'bottom-[2%] right-[1%]',
+                    deviceType === 'web' && 'right-[1%] bottom-[2%]',
                     deviceType === 'medium' &&
-                      'translate-1/2 left-[2.5%] top-[2.5%]',
-                    deviceType === 'mobile' && 'left-[2rem] top-[2rem]'
+                      'top-[2.5%] left-[2.5%] translate-1/2',
+                    deviceType === 'mobile' && 'top-[2rem] left-[2rem]'
                   )}
                 />
               )}
               {deviceType === 'web' ? (
-                <div className="absolute left-[1rem] top-1/2 flex h-[95%] -translate-y-1/2 flex-col justify-between opacity-85">
+                <div className="absolute top-1/2 left-[1rem] flex h-[95%] -translate-y-1/2 flex-col justify-between opacity-85">
                   <ThemeToggle sizeFactor={0.7} className="translate-1/2" />
                   <LangToggle sizeFactor={0.7} className="translate-1/2" />
                 </div>
@@ -251,7 +251,7 @@ export default function GlobalModal(props: GlobalModalProps) {
                       aria-label={closeLabel}
                       onClick={handleInfo}
                       className={cn(
-                        'absolute -right-4 -top-4 inline-flex h-9 w-9 items-center justify-center rounded-xl bg-black/5 hover:cursor-pointer hover:bg-black/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]'
+                        'absolute -top-4 -right-4 inline-flex h-9 w-9 items-center justify-center rounded-xl bg-black/5 hover:cursor-pointer hover:bg-black/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]'
                       )}
                     >
                       <IoMdClose size={20} color="var(--global-modal-close)" />

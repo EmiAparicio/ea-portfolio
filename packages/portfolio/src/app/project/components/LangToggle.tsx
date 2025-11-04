@@ -235,7 +235,7 @@ const LangToggleButton = ({
         {...commonProps}
         globalPosition={globalPosition!}
         labelClassname="font-russo"
-        className="z-60 absolute"
+        className="absolute z-60"
       />
     );
   }

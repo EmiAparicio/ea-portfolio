@@ -90,7 +90,7 @@ const Resume: FC<ResumeProps> = ({ className, loaderDelayMs = 180 }) => {
           onLoad={onReady}
           onError={onReady}
           className={cn(
-            'no-custom-cursor -translate-1/2 outline-global-modal-content-border pointer-events-auto absolute left-1/2 w-[80%] rounded-[5px] outline-2',
+            'no-custom-cursor outline-global-modal-content-border pointer-events-auto absolute left-1/2 w-[80%] -translate-1/2 rounded-[5px] outline-2',
             deviceType === 'web' && 'top-1/2 h-[80%]',
             deviceType !== 'web' && 'top-[45%] h-[70%]',
             !iframeVisible && 'pointer-events-none'
@@ -100,7 +100,7 @@ const Resume: FC<ResumeProps> = ({ className, loaderDelayMs = 180 }) => {
         {showLoader && (
           <Spinner
             hasOverlay
-            className="-translate-1/2 absolute left-1/2 top-[40%]"
+            className="absolute top-[40%] left-1/2 -translate-1/2"
           />
         )}
 
@@ -129,7 +129,7 @@ const Resume: FC<ResumeProps> = ({ className, loaderDelayMs = 180 }) => {
         showLabelOnToggled={true}
         className={cn(
           deviceType === 'web' &&
-            'pointer-events-auto !absolute left-[5%] top-1/2',
+            'pointer-events-auto !absolute top-1/2 left-[5%]',
           deviceType !== 'web' &&
             'pointer-events-auto !absolute bottom-0 left-1/2'
         )}

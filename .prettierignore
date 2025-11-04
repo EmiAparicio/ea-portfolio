@@ -6,5 +6,6 @@ storybook-static
 pnpm-lock.yaml
 pnpm-workspace.yaml
 README.md
+uvegame
 
 packages/portfolio/public/storybook

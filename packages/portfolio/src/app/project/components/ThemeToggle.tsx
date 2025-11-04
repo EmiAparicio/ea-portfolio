@@ -109,6 +109,6 @@ export const GloballyPositionedThemeToggle: FC<
     useGlobal
     globalPosition={globalPosition}
     sizeFactor={sizeFactor}
-    className="z-60 absolute"
+    className="absolute z-60"
   />
 );

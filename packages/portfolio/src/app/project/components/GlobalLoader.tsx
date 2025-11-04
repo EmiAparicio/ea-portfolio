@@ -89,7 +89,7 @@ export default function GlobalLoader(props: GlobalLoaderProps) {
           transition={{ duration: 0.25 }}
           aria-busy
           role="progressbar"
-          className="pointer-events-auto fixed inset-0 touch-none select-none overscroll-none"
+          className="pointer-events-auto fixed inset-0 touch-none overscroll-none select-none"
           style={{ zIndex }}
         >
           <div

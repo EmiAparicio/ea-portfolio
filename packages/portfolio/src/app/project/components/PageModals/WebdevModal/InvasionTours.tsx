@@ -90,7 +90,7 @@ const InvasionTours: FC<InvasionToursProps> = ({
           onLoad={onReady}
           onError={onReady}
           className={cn(
-            'no-custom-cursor -translate-1/2 outline-global-modal-content-border pointer-events-auto absolute left-1/2 aspect-video rounded-[5px] outline-2',
+            'no-custom-cursor outline-global-modal-content-border pointer-events-auto absolute left-1/2 aspect-video -translate-1/2 rounded-[5px] outline-2',
             !iframeVisible && 'pointer-events-none',
             deviceType === 'web' && 'top-[40%] h-[60%]',
             deviceType === 'medium' && 'top-[38%] w-[calc(min(75dvh,75vw))]',
@@ -101,7 +101,7 @@ const InvasionTours: FC<InvasionToursProps> = ({
         {showLoader && (
           <Spinner
             hasOverlay
-            className="-translate-1/2 absolute left-1/2 top-[40%]"
+            className="absolute top-[40%] left-1/2 -translate-1/2"
           />
         )}
       </div>
@@ -119,7 +119,7 @@ const InvasionTours: FC<InvasionToursProps> = ({
         showLabelOnToggled={true}
         className={cn(
           'pointer-events-auto !absolute',
-          deviceType === 'web' && 'left-[5%] top-1/2',
+          deviceType === 'web' && 'top-1/2 left-[5%]',
           deviceType === 'medium' && 'bottom-[10%] left-1/2',
           deviceType === 'mobile' && '-bottom-[2.5%] left-1/2'
         )}

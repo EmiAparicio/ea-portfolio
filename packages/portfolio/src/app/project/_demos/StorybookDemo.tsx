@@ -105,7 +105,7 @@ export const StorybookDemo: FC<StorybookDemoProps> = ({
   return (
     <div
       className={cn(
-        'no-custom-cursor -translate-1/2 pointer-events-none absolute left-1/2 border-none',
+        'no-custom-cursor pointer-events-none absolute left-1/2 -translate-1/2 border-none',
         deviceType === 'web' && 'top-[42%] aspect-video w-[75%]',
         deviceType === 'medium' && 'top-[48%] h-[70%] w-[90%]',
         deviceType === 'mobile' && 'top-1/2 h-[80%] w-[90%]',
@@ -133,7 +133,7 @@ export const StorybookDemo: FC<StorybookDemoProps> = ({
       {showLoader && (
         <Spinner
           hasOverlay
-          className="-translate-1/2 absolute left-1/2 top-1/2"
+          className="absolute top-1/2 left-1/2 -translate-1/2"
         />
       )}
     </div>

@@ -282,7 +282,7 @@ export default function GlitchTitle({
   return (
     <span
       className={cn(
-        'glitch-title inline-block select-none whitespace-nowrap text-center',
+        'glitch-title inline-block text-center whitespace-nowrap select-none',
         isPositioned && '-translate-x-1/2 -translate-y-1/2',
         isReduced && 'grm-pause',
         className

@@ -78,7 +78,7 @@ export default function Spinner(props: SpinnerProps) {
       {hasOverlay && (
         <div
           aria-hidden
-          className="bg-spinner-overlay/60 -translate-1/2 absolute left-1/2 top-1/2 h-[600%] w-[600%]"
+          className="bg-spinner-overlay/60 absolute top-1/2 left-1/2 h-[600%] w-[600%] -translate-1/2"
           style={{
             WebkitMaskImage:
               'radial-gradient(circle at center, white 0%, transparent 40%)',
