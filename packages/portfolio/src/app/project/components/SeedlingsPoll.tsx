@@ -9,7 +9,7 @@ const russoOne = Russo_One({
   subsets: ['latin'],
 });
 
-const CATEGORIES = [
+export const CATEGORIES = [
   'Agua',
   'Aire',
   'Artificial',
@@ -19,8 +19,8 @@ const CATEGORIES = [
   'Mineral',
   'Vida',
 ];
-const SUBCATEGORIES = ['Corrupto', 'Puro'];
-const CATEGORY_TYPES: Record<string, string[]> = {
+export const SUBCATEGORIES = ['Corrupto', 'Puro'];
+export const CATEGORY_TYPES: Record<string, string[]> = {
   Agua: [
     'Aire Fighter',
     'Artificial Tank',
@@ -87,9 +87,9 @@ const CATEGORY_TYPES: Record<string, string[]> = {
   ],
 };
 
-const TYPES_PER_SUB = 6;
-const STEPS_PER_CAT = SUBCATEGORIES.length * TYPES_PER_SUB;
-const TOTAL_STEPS = CATEGORIES.length * STEPS_PER_CAT; // 96 steps
+export const TYPES_PER_SUB = 6;
+export const STEPS_PER_CAT = SUBCATEGORIES.length * TYPES_PER_SUB;
+export const TOTAL_STEPS = CATEGORIES.length * STEPS_PER_CAT; // 96 steps
 
 // Helper to generate image paths and info for keys
 const getStepInfo = (step: number) => {
@@ -128,9 +128,11 @@ type Vote = 'Me gusta' | 'No me gusta' | 'Borra esta basura';
 export default function SeedlingsPoll({
   onComplete,
   isSubmitting,
+  hasSubmitted = false,
 }: {
   onComplete?: (results: Record<number, Vote[]>) => void;
   isSubmitting?: boolean;
+  hasSubmitted?: boolean;
 }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [votes, setVotes] = useState<Record<number, Vote[]>>({});
@@ -209,17 +211,16 @@ export default function SeedlingsPoll({
 
   return (
     <div className="mobile-forced-landscape">
-      <div className="mobile-content-wrapper mx-auto flex h-full max-w-6xl flex-col justify-between px-4 py-0.5 md:py-8">
-        {/* Header - Minimalist on mobile */}
+      <div className="mobile-content-wrapper mx-auto flex h-full max-w-6xl flex-col justify-between px-4 py-0 md:py-8">
+        {/* Header - Ultra Minimalist on mobile */}
         <div className="mb-0 flex items-center justify-between md:mb-8">
-          <div className="flex items-center gap-2 overflow-hidden">
+          <div className="flex items-center gap-1 overflow-hidden">
             <h1
               className={`${russoOne.className} hidden shrink-0 text-2xl leading-none tracking-tighter text-black uppercase md:block`}
             >
               Seedlings Poll
             </h1>
-            <p className="truncate text-[7px] font-medium text-black opacity-50 md:text-sm">
-              <span className="mr-1 font-bold uppercase md:hidden">Poll:</span>
+            <p className="truncate text-[6px] leading-tight font-medium text-black opacity-40 md:text-sm">
               No juzgues calidad, juzga al personaje.
             </p>
           </div>
@@ -227,17 +228,16 @@ export default function SeedlingsPoll({
             {currentStep === TOTAL_STEPS - 1 && (
               <button
                 id="submit-results-btn"
-                disabled={isSubmitting}
+                disabled={isSubmitting || hasSubmitted}
                 onClick={() => onComplete?.(votes)}
-                className="rounded-full bg-black px-2 py-0.5 text-[8px] font-bold text-white md:text-sm"
+                className={`rounded-full px-2 py-0.5 text-[7px] font-bold text-white md:text-sm ${
+                  hasSubmitted ? 'bg-green-600' : 'bg-black'
+                }`}
               >
-                {isSubmitting ? '...' : 'Enviar'}
+                {isSubmitting ? '...' : hasSubmitted ? 'Enviado' : 'Enviar'}
               </button>
             )}
             <div className="flex items-center gap-1">
-              <span className="hidden font-mono text-[10px] font-bold tracking-widest text-black uppercase opacity-40 md:block">
-                Progreso
-              </span>
               <div className="flex items-center gap-0.5">
                 <input
                   type="text"
@@ -251,10 +251,10 @@ export default function SeedlingsPoll({
                       setCurrentStep(val - 1);
                     }
                   }}
-                  className={`${russoOne.className} w-5 border-none bg-transparent p-0 text-right text-[9px] text-black focus:ring-0 focus:outline-none md:w-12 md:text-xl`}
+                  className={`${russoOne.className} w-4 border-none bg-transparent p-0 text-right text-[8px] text-black focus:ring-0 focus:outline-none md:w-12 md:text-xl`}
                 />
                 <div
-                  className={`${russoOne.className} text-[9px] leading-none text-black md:text-xl`}
+                  className={`${russoOne.className} text-[8px] leading-none text-black md:text-xl`}
                 >
                   / {TOTAL_STEPS}
                 </div>
@@ -275,8 +275,8 @@ export default function SeedlingsPoll({
               className="grid w-full grid-cols-2 gap-2 md:gap-8"
             >
               {images.map((src, idx) => (
-                <div key={idx} className="flex min-w-0 flex-col gap-2 md:gap-4">
-                  <div className="relative aspect-video overflow-hidden rounded-lg border border-black/10 bg-zinc-50 shadow-lg md:rounded-2xl md:shadow-2xl">
+                <div key={idx} className="flex min-w-0 flex-col gap-1 md:gap-4">
+                  <div className="relative aspect-video overflow-hidden rounded-lg border border-black/10 bg-zinc-50 shadow-sm md:rounded-2xl md:shadow-2xl">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={src}
@@ -292,9 +292,9 @@ export default function SeedlingsPoll({
                         <button
                           key={val}
                           onClick={() => handleVote(idx, val)}
-                          className={`flex-1 rounded-lg border px-1 py-1 text-[9px] font-bold transition-all md:rounded-xl md:py-4 md:text-sm ${
+                          className={`flex-1 rounded-lg border px-1 py-0.5 text-[8px] font-bold transition-all md:rounded-xl md:py-4 md:text-sm ${
                             currentStepVotes[idx] === val
-                              ? 'border-black bg-black text-white shadow-lg'
+                              ? 'border-black bg-black text-white shadow-sm'
                               : 'border-black/5 bg-zinc-50 text-black/50 hover:border-black/20'
                           }`}
                         >
@@ -303,9 +303,9 @@ export default function SeedlingsPoll({
                       ))}
                       <button
                         onClick={() => handleVote(idx, 'Borra esta basura')}
-                        className={`flex-1 rounded-lg border px-1 py-1 text-[8px] font-bold tracking-tight uppercase transition-all md:hidden ${
+                        className={`flex-1 rounded-lg border px-1 py-0.5 text-[7px] font-bold tracking-tight uppercase transition-all md:hidden ${
                           currentStepVotes[idx] === 'Borra esta basura'
-                            ? 'border-red-600 bg-red-600 text-white shadow-md'
+                            ? 'border-red-600 bg-red-600 text-white shadow-sm'
                             : 'border-black/5 bg-zinc-100/50 text-zinc-400'
                         }`}
                       >
@@ -331,11 +331,11 @@ export default function SeedlingsPoll({
         </div>
 
         {/* Footer */}
-        <div className="mt-0 flex items-center justify-between border-t border-black/5 pt-0.5 md:mt-12 md:pt-4">
+        <div className="mt-0 flex items-center justify-between overflow-hidden border-t border-black/5 md:mt-12 md:pt-4">
           <button
             onClick={back}
             disabled={currentStep === 0}
-            className="rounded-lg px-1 py-0.5 text-[9px] font-bold text-black transition-opacity hover:bg-black/5 active:scale-95 disabled:opacity-0 md:px-6 md:py-3 md:text-sm"
+            className="rounded-lg px-2 py-0 text-[8px] font-bold text-black transition-opacity hover:bg-black/5 active:scale-95 disabled:opacity-0 md:px-6 md:py-3 md:text-sm"
           >
             &larr; Atrás
           </button>
@@ -343,7 +343,7 @@ export default function SeedlingsPoll({
           {currentStep < TOTAL_STEPS - 1 && (
             <button
               onClick={next}
-              className="rounded-full bg-black px-5 py-1 text-[9px] font-bold text-white shadow-xl shadow-black/10 transition-transform hover:scale-105 active:scale-95 md:px-10 md:py-4 md:text-base"
+              className="rounded-full bg-black px-4 py-1 text-[8px] font-bold text-white shadow-lg transition-transform hover:scale-105 active:scale-95 md:px-10 md:py-4 md:text-base"
             >
               Siguiente &rarr;
             </button>
