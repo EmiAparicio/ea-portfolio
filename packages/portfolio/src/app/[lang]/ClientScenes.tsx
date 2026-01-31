@@ -15,6 +15,7 @@ const SCENES = {
   webdev: WebdevPage,
   gaming: GamingPage,
   eng: EngPage,
+  seedlings: () => null,
 } as const;
 
 type SceneKey = keyof typeof SCENES;
@@ -54,6 +55,7 @@ function resolveScene(pathname: string): SceneKey {
   if (rest.startsWith('/webdev')) return 'webdev';
   if (rest.startsWith('/gaming')) return 'gaming';
   if (rest.startsWith('/bioengineering')) return 'eng';
+  if (rest.startsWith('/seedlings')) return 'seedlings';
   return 'landing';
 }
 

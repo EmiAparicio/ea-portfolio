@@ -4,7 +4,12 @@ import { negotiateFromRequest } from '@i18n/utils/negotiation';
 import { normalizeBase } from '@i18n/utils/normalize';
 import { NextResponse, type NextRequest } from 'next/server';
 
-const KNOWN_SUBPATHS = new Set(['webdev', 'gaming', 'bioengineering']);
+const KNOWN_SUBPATHS = new Set([
+  'webdev',
+  'gaming',
+  'bioengineering',
+  'seedlings',
+]);
 
 function cleanPath(pathname: string) {
   const s = pathname.replace(/\/+/g, '/');
@@ -14,6 +19,12 @@ function cleanPath(pathname: string) {
 export async function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
   const path = cleanPath(pathname);
+  const segs = path.split('/').filter(Boolean);
+
+  // If it's a seedlings path within a language, let it pass
+  if (segs.length >= 2 && segs[1] === 'seedlings') {
+    return NextResponse.next();
+  }
 
   if (path === '/uvegame/obm' || path.startsWith('/uvegame/obm/')) {
     if (/\.[\w]+$/.test(pathname)) {
@@ -53,7 +64,6 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const segs = path.split('/').filter(Boolean);
   const first: LocaleBase | undefined = segs[0] as LocaleBase | undefined;
 
   if (!first || !SUPPORTED_BASES.has(first)) {

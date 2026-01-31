@@ -360,7 +360,9 @@ export function HexButtonsPanel<P extends HexButtonProps = HexButtonProps>({
     if (pendingLang && pendingLang !== lang) return;
 
     const selected = pendingRouteId ?? currentRouteId;
-    if (!selected && !atRoot) {
+    const isSeedlings = currentPath.endsWith('/seedlings');
+
+    if (!selected && !atRoot && !isSeedlings) {
       setNavTo(rootPath);
       sessionStorage.removeItem(intentKey);
     }

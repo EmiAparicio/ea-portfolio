@@ -21,9 +21,8 @@ const en = {
   },
   pages: {
     titles: {
-      webdev: 'Frontend Web Developer',
-      bioengineering: 'Bioengineer & Professor',
       gaming: 'Game Designer',
+      seedlings: 'Seedlings Poll',
     },
     landing: {
       text: 'I’m a <b>bioengineer</b> and professor, <b>frontend developer</b>, and cat lover with a lifelong passion for technology and programming. I completed my doctoral research in engineering before shifting my focus toward creative tech. I’m also a symphonic metal absolutist and indie <b>videogame designer</b>. Nowadays, I divide my time between web development, teaching math and physics, and building my videogame venture <i>Oblivion Mechanics</i>.',

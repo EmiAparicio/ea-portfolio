@@ -19,6 +19,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ClientScenes from './ClientScenes';
 import { PageParams } from './page';
+import PortfolioUIGuard from './PortfolioUIGuard';
 
 const titles: Record<LocaleBase, string> = {
   en: 'Emiliano Aparicio | Engineer & Frontend Developer',
@@ -103,19 +104,26 @@ export default async function LangLayout(props: LayoutProps) {
         <main className="relative min-h-dvh overflow-hidden">
           <ToastProvider>
             <CopyToastHost />
-            <HexGridBackground debug={false} />
-            <HexGridReadyBoundary fallback={null}>
-              <LangProvider initialLang={lang}>
-                <ClientScenes />
-                {props.children}
-                <LandingTitle />
-                <MenuPanel />
-                <TechCursor />
-                <GloballyPositionedThemeToggle />
-                <GloballyPositionedLangToggle />
+            <PortfolioUIGuard>
+              <HexGridBackground debug={false} />
+            </PortfolioUIGuard>
+            <LangProvider initialLang={lang}>
+              {props.children}
+              <PortfolioUIGuard>
+                <HexGridReadyBoundary fallback={null}>
+                  <ClientScenes />
+                  <LandingTitle />
+                  <MenuPanel />
+                  <TechCursor />
+                  <GloballyPositionedThemeToggle />
+                  <GloballyPositionedLangToggle />
+                  <GlobalModal />
+                </HexGridReadyBoundary>
+              </PortfolioUIGuard>
+              <PortfolioUIGuard inverse>
                 <GlobalModal />
-              </LangProvider>
-            </HexGridReadyBoundary>
+              </PortfolioUIGuard>
+            </LangProvider>
           </ToastProvider>
         </main>
       </AppProviders>
