@@ -46,10 +46,9 @@ const Section = memo(({ position }: SectionProps) => {
 
   const titlesByKey = useMemo(() => {
     const obj = dict.pages.titles as Record<string, string | undefined>;
-    const entries = Object.entries(obj).filter(([, v]) => !!v) as [
-      string,
-      string,
-    ][];
+    const entries = Object.entries(obj).filter(
+      ([k, v]) => !!v && k !== 'seedlings'
+    ) as [string, string][];
     if (entries.length === 0) return { '': ' ' } as Record<string, string>;
     return Object.fromEntries(entries);
   }, [dict.pages.titles]);

@@ -21,7 +21,9 @@ const es = {
   },
   pages: {
     titles: {
+      webdev: 'Desarrollador Frontend',
       gaming: 'Diseñador de Juegos',
+      eng: 'Bioingeniero',
       seedlings: 'Encuesta de Seedlings',
     },
     landing: {

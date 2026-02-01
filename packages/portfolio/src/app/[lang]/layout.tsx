@@ -15,7 +15,7 @@ import CopyToastHost from '@project/components/Toast/CopyToastHost';
 import ToastProvider from '@project/components/Toast/ToastProvider';
 import { AppProviders } from '@project/providers';
 import { readThemeCookieServer } from '@project/utils/server';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { notFound } from 'next/navigation';
 import ClientScenes from './ClientScenes';
 import { PageParams } from './page';
@@ -42,6 +42,12 @@ async function resolveLangFromProps(p: PageParams): Promise<LocaleBase> {
   const raw = (await p.params).lang;
   return normalizeBase(raw);
 }
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+};
 
 /**
  * Generates dynamic page metadata based on the current language.
